@@ -3,8 +3,15 @@
     "version": "1.0.0",
     "description": "Frontend Challenge",
     "main": "index.html",
-    "author": "David Rivera",
+    "author": {
+        "name": "David Rivera",
+        "email": "david.rivera.pericas@gmail.com"
+    },
     "license": "ISC",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/davidriverapericas/challenge1.git"
+    },
     "devDependencies": {
         "grunt": "^1.0.3",
         "grunt-contrib-copy": "^1.0.0",
