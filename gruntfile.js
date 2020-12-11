@@ -17,8 +17,8 @@ module.exports = function(grunt) {
         cssmin: {
             uikit: {
                 files: {
-                    'assets/css/uikit.min.css': [
-                        'assets/css/uikit.css'
+                    'assets/css/uikit/uikit.min.css': [
+                        'assets/css/uikit/uikit.css'
                     ]
                 }
             }
@@ -48,8 +48,7 @@ module.exports = function(grunt) {
         watch: {
             sass: {
                 files: ['src/sass/{,*/}*.sass'],
-                tasks: ['sass:uikit'],
-                /* , 'cssmin:uikit' */
+                tasks: ['sass:uikit', 'cssmin:uikit'],
                 options: {
                     spawn: false
                 }
@@ -71,5 +70,5 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-copy');
 
-    grunt.registerTask('default', ['sass:uikit', 'copy:uikit', /*'cssmin:uikit',*/ 'uglify', 'watch']);
+    grunt.registerTask('default', ['sass:uikit', 'copy:uikit', 'cssmin:uikit', 'uglify', 'watch']);
 };
