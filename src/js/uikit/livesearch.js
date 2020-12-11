@@ -123,7 +123,7 @@ function LiveSeach(elementId, apiurl, minTypedLength, userDefinedFormatFunction,
 
     this.boldResult = function(haystack, needle) {
         return haystack.replace(new RegExp('(^|)(' + needle + ')(|$)', 'ig'), '$1<strong>$2</strong>$3');
-    }
+    };
 
     this.displayResults = function(results) {
         // 1st: To clean the existing list of diplayed results
