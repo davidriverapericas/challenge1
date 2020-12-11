@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="David Rivera's Habitissimo Challenge">
+    <meta name="author" content="david.rivera.pericas@gmail.com">
+
+    <link rel="shortcut icon" href="https://es.habcdn.com/static/root/favicon.ico" />
+    <link rel="icon" type="image/png" href="https://es.habcdn.com/static/root/favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="https://es.habcdn.com/static/root/android-chrome-192x192.png" sizes="192x192" />
+    <link rel="icon" type="image/png" href="https://es.habcdn.com/static/root/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/png" href="https://es.habcdn.com/static/root/favicon-16x16.png" sizes="16x16" />
+
+    <title>Habitissimo Frontend Challenge #1</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+
+    <!-- UI Kit Styles -->
+    <link href="/assets/css/uikit/uikit.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/assets/css/pages/challenge1.css" rel="stylesheet">
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <a class="navbar-brand" href="#">DRP</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/index.html">Frontend Challenge #1</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <main role="main">
+        <!-- Main jumbotron with the first livesearch example -->
+        <div class="jumbotron">
+            <div class="container">
+                <h1 class="display-3">Frontend Challenge</h1>
+                <p>Desarrollo de un componente tipo <em>live search input</em> que estaría incluido en un UI-Kit.</p>
+                <p>
+                    <input type="text" id="livesearch1" placeholder="Qué necesitas...">
+                    <span>
+						Buscador de resultados a través de API que devuelve campos de texto.<br>
+						Mínimo número de caracteres necesarios: 1<br>
+						Elemento Seleccionado por el usuario: <strong><span id="livesearch1_result">-</span></strong>
+                    </span>
+                </p>
+            </div>
+        </div>
+
+        <div class="container">
+            <!-- More livesearch components to test -->
+            <div class="row">
+                <div class="col-md-6">
+                    <h2>Ejemplo #2 de UIKit::livesearch</h2>
+                    <p><input type="text" id="livesearch2" placeholder="Qué necesitas..."></p>
+                    <p>
+                        <span>
+							Buscador de resultados a través de API que devuelve objectos y con función para formatear el texto que se visualiza.<br>
+							Mínimo número de caracteres necesarios: 2<br>
+							Elemento Seleccionado por el usuario: <strong><span id="livesearch2_result">-</span></strong>
+                        </span>
+                    </p>
+                </div>
+                <div class="col-md-6">
+                    <h2>Ejemplo #3 de UIKit::livesearch</h2>
+                    <p><input type="text" id="livesearch3" placeholder="Qué necesitas..."></p>
+                    <p>
+                        <span>
+							Buscador de resultados a través de API que devuelve objectos, sin función de formateo y por lo tanto se aplicará el autoformato.<br>
+							Mínimo número de caracteres necesarios: 3<br>
+							Elemento Seleccionado por el usuario: <strong><span id="livesearch3_result"></span>-</strong>
+                        </span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="jumbotron">
+            <div class="container">
+                <!-- Challenge Description -->
+                <div class="row">
+                    <div class="col-md-6">
+                        <h2>Planteamiento</h2>
+                        <p>
+                            Supongamos que necesitamos añadir a nuestro UI-KIt un nuevo componente de tipo live search input que usaremos en los formularios de nuestro producto. Para ello se requiere una solución web, compatible con cualquiera de los navegadores que actualmente
+                            están en el mercado y que tenga la siguiente funcionalidad:
+                            <ol>
+                                <li>El usuario podrá escribir en el input y este llamará a un servicio de backend con esa información como parámetro. Los resultados se mostrarán filtrados.</li>
+                                <li>El tipo de filtrado debe ser de tipo contains y case insensitive El objetivo es que nos enseñes cómo gestionas el desarrollo de un elemento de interacción complejo por ti mismo, no puedes usar librerías que implementen
+                                    todo el autocomplete (bootstrap typeahead, twitter typeahead, Downshift, ...) pero puedes usar librerías de apoyo para resolver el problema (React, jQuery, ...).</li>
+                            </ol>
+                        </p>
+                    </div>
+                    <div class="col-md-6">
+                        <h2>Requisitos</h2>
+                        <p>
+                            <ul>
+                                <li>Repositorio remoto código fuente</li>
+                                <li>Uso de cualquier api de pruebas como backend (puedes usar una API pública cualquiera, no necesitas crear tu propio endpoint).</li>
+                                <li>Compatible con cualquiera de los navegadores que actualmente están en el mercado</li>
+                                <li>Diseño Web Responsive</li>
+                                <li>En el siguiente ​enlace ​podrás encontrar el diseño gráfico que nuestro equipo de UX ha realizado para el componente usando Figma. Haciendo login con una cuenta personal o de Google podrás acceder a los assets y estilos
+                                    de todos los estados diseñados para el componente.</li>
+                                <li>La tipografía Avenir Next que se referencia en Figma no podŕás encontrarla fácilmente en internet, en su lugar usa ​Montserrat</li>
+                            </ul>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="documentation">
+            <div class="container">
+                <h2 class="display-4">Documentación de la Solución desarrollada</h2>
+                <p>
+                    Pasos a seguir para incluir un elemento de tipo <em>live search input</em> en una pagina:
+                    <ol>
+                        <li>
+                            Incluir los estilos del UIKit en el tag <code>&lt;head&gt;</code> de la página:<br>
+                            <code>
+								&lt;!-- UI Kit Styles --&gt;<br>
+								&lt;link href="/assets/css/uikit/uikit.css" rel="stylesheet"&gt;
+							</code>
+                        </li>
+                        <li>
+                            Incluir el Javascript del UIKit al final del tag <code>&lt;body&gt;</code>, para evitar bloquear la renderización de la página:<br>
+                            <code>
+								&lt;!-- UIKIT JS --&gt;<br>
+								&lt;script src="assets/js/uikit/uikit.min.js"&gt;&lt;/script&gt;
+							</code>
+                        </li>
+                        <li>
+                            Incluir tantos elementos <code>&lt;input type="text" id="myuniqueid"&gt;</code> como se desee.<br> Cada elemento debe tener su propio Id único, ejemplos:<br>
+                            <code>
+								&lt;h2&gt;Encuentra profesionales de confianza:&lt;/h2&gt;<br>
+								&lt;input type="text" id="livesearch1" placeholder="Qué necesitas..."><br>
+								...<br>
+								&lt;h2&gt;País de nacimiento:&lt;/h2&gt;<br>
+								&lt;input type="text" id="livesearch2" placeholder="Selecciona el país de nacimiento..."&gt;<br>
+							</code>
+                        </li>
+                        <li>
+                            Inicializar los elementos <em>live search input</em> en tu código Javascript de la siguiente forma:<br>
+                            <code>
+								var liveSearchComponent1 = new LiveSeach(elementId, apiurl, minTypedLength, userDefinedFormatFunction, userDefinedSelectedFunction);<br>
+							</code> Descripción:
+                            <ul>
+                                <li><strong>elementId:</strong> [string] Identificador único del elemento input en el DOM.<br>Este parámetro es <strong>obligatorio</strong></li>
+                                <li><strong>apiurl:</strong> [string] URI al Endpoint que proporcione datos en formato JSON. A esta URI se le concatenará la cadena introducida por el usuario en el input.<br>Este parámetro es <strong>obligatorio</strong></li>
+                                <li><strong>minTypedLength:</strong> [integer] Número de carácteres necesarios para hacer la llamada al Endpoint.<br>Este parámetro es <em>opcional</em>. Valor por defecto: 2</li>
+                                <li><strong>userDefinedFormatFunction:</strong> [function] Función de usuario Javascript para dar formato a los datos. Esta función recibirá un parámetro con cada uno de los datos recibidos por el API que la función puede manipular.
+                                    Esta función deberá devolver un string que se mostrará al usario.<br>Este parámetro es <em>opcional</em></li>
+                                <li><strong>userDefinedSelectedFunction:</strong> [function] Función de usuario Javascript que el componente <em>live search input</em> ejecutará una vez que el usuario seleccione uno de los resultados.<br>Este parámetro es
+                                    <em>opcional</em></li>
+                            </ul>
+                            <br> Ejemplo #1:
+                            <br>
+                            <code>
+								var liveSearchComponent1 = new LiveSeach(<br>
+								&nbsp;&nbsp;&nbsp;&nbsp;'livesearch1',<br>
+								&nbsp;&nbsp;&nbsp;&nbsp;'/fake-api/fake-data.php?format=plain&search=',<br>
+								&nbsp;&nbsp;&nbsp;&nbsp;1,<br>
+								&nbsp;&nbsp;&nbsp;&nbsp;null,<br>
+								&nbsp;&nbsp;&nbsp;&nbsp;function(res) {<br>
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;document.getElementById('livesearch1_result').innerHTML = res;<br>
+								&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+							);<br>
+							</code>
+                            <br> Ejemplo #2:
+                            <br>
+                            <code>
+								var liveSearchComponent2 = new LiveSeach(<br>
+								&nbsp;&nbsp;&nbsp;&nbsp;'livesearch2',<br>
+								&nbsp;&nbsp;&nbsp;&nbsp;'/fake-api/fake-data.php?search=',<br>
+								&nbsp;&nbsp;&nbsp;&nbsp;2,<br>
+								&nbsp;&nbsp;&nbsp;&nbsp;function(obj) {<br>
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return (obj.name + ' &lt;span class="ls_email"&gt;' + obj.email + ' de &lt;/span&gt;&lt;span class="ls_company"&gt;' + obj.company + '&lt;/span&gt;');<br>
+								&nbsp;&nbsp;&nbsp;&nbsp;},<br>
+								&nbsp;&nbsp;&nbsp;&nbsp;function(res) {<br>
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;document.getElementById('livesearch2_result').innerHTML = res;<br>
+								&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+								);
+							</code>
+                        </li>
+                    </ol>
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <footer class="container">
+        <p>David Rivera Pericas (<a href="mailto:david.rivera.pericas@gmail.com" target="_blank">david.rivera.pericas@gmail.com</a>)</p>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+    <!-- UIKIT JS -->
+    <script src="assets/js/uikit/uikit.min.js"></script>
+    <!-- script src="src/js/uikit/livesearch.js"></script -->
+    <script src="assets/js/pages/challenge1.js"></script>
+</body>
+
+</html>

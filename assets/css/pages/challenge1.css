@@ -1,0 +1,17 @@
+body {
+    padding-top: 3.5rem;
+}
+
+.ls_email {
+    font-size: 0.8em;
+}
+
+.ls_company {
+    font-size: 0.8em;
+    text-transform: capitalize;
+}
+
+.documentation {
+    background-color: bisque;
+    padding: 2em 0;
+}
