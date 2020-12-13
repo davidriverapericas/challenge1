@@ -239,6 +239,8 @@ if ($format === 'plain') {
         $plainRes[] = "{$value['name']} ({$value['email']}) de {$value['company']}";
     }
     echo json_encode($plainRes);
+} elseif ($format === 'error') {
+    echo 'This is not a JSON Format. This should be under control!!!';
 } else {
     echo json_encode($res);
 }

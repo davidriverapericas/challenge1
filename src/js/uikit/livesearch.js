@@ -1,3 +1,14 @@
+/**
+ * LiveSearch JS Component Constructor.
+ * 
+ * JS component as a supposed part of a UIKit with other JS components.
+ * 
+ * @param {string} elementId ID of the input (type="text") element to become a LiveSearch component.
+ * @param {*} apiurl URL / Endpoint of the API to request the filtered data. This endpoint must return a JSON dataset.
+ * @param {*} minTypedLength Minimum number of chars that the user must type in order to request data to the endpoint.
+ * @param {*} userDefinedFormatFunction Javascript User function to format each result. It will receive a parameter with each data (string or object) and it must return a user-formatted string.
+ * @param {*} userDefinedSelectedFunction Javascript User function that will be executed when the user selects an element from the results.
+ */
 function LiveSeach(elementId, apiurl, minTypedLength, userDefinedFormatFunction, userDefinedSelectedFunction) {
     this.elementId = elementId;
     this.apiurl = apiurl ? apiurl : null;
@@ -10,6 +21,11 @@ function LiveSeach(elementId, apiurl, minTypedLength, userDefinedFormatFunction,
     this.userDefinedSelectedFunction = (typeof userDefinedSelectedFunction === 'function') ? userDefinedSelectedFunction : null;
     this._this = this;
 
+    /**
+     * Initialization Function.
+     * 
+     * It will be executed when the object is instantiated.
+     */
     this.init = function() {
         /**
          * Validations on elementId Field:
@@ -36,18 +52,18 @@ function LiveSeach(elementId, apiurl, minTypedLength, userDefinedFormatFunction,
         //Adding CSS Class to input
         this.input.classList.add('livesearch');
 
-
-        this.input._parentobj = this; //
+        //Adding a Reference in the main input field to the object itself, to be used when the Event is fired
+        this.input._parentobj = this;
 
         /**
-         * Adding 'input' event: 
+         * Adding 'input' Event Listeners: 
          *  - input, to detect changes typed by the user
          *  - blur, to detect the user has lost focus of the field
          */
         this.eventWrapper(this.input, "input", this.eventInputChanged);
         this.eventWrapper(this.input, "blur", this.eventInputBlur);
 
-        //Creating the Wrapper & Container to display results
+        //Creating the Wrapper & Container divs to display results
         this.resultsWrapperContainer = document.createElement('div');
         this.resultsWrapperContainer.className = 'livesearchWrapper';
         this.resultsWrapperContainer.id = 'livesearchWrapper' + this.elementId;
@@ -60,8 +76,12 @@ function LiveSeach(elementId, apiurl, minTypedLength, userDefinedFormatFunction,
         this.input.after(this.resultsWrapperContainer);
     };
 
-    /*
-     * Event Wrapper
+    /**
+     * Event Wrapper Helper.
+     * 
+     * @param {DOM Element} element DOM Element to catpure the event.
+     * @param {string} event Event name (click, input, change, ...).
+     * @param {function} funct JS Function that will be fired on the event
      */
     this.eventWrapper = function(element, event, funct) {
         try {
@@ -71,6 +91,11 @@ function LiveSeach(elementId, apiurl, minTypedLength, userDefinedFormatFunction,
         }
     };
 
+    /**
+     * Requesting data to the defined API Endpoint.
+     * 
+     * @param {string} txt String typed by the user to filter data on server side
+     */
     this.requestDataFromURL = function(txt) {
         if (this.xmlhttp) {
             this.xmlhttp.abort();
@@ -80,21 +105,36 @@ function LiveSeach(elementId, apiurl, minTypedLength, userDefinedFormatFunction,
 
         this.xmlhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
-                var dataJSON = JSON.parse(this.responseText);
-                _this.displayResults(dataJSON);
-                this.xmlhttp = null;
+                try {
+                    var dataJSON = JSON.parse(this.responseText);
+                    _this.displayResults(dataJSON);
+                } catch (error) {
+                    _this.error('Error parsing the JSON response: ' + error.message);
+                }
+                _this.xmlhttp = null;
                 _this.input.classList.remove('loading');
             } else if (this.readyState == 4 && this.status != 200) {
-                error('Error on the AJAX request');
-                this.xmlhttp = null;
+                _this.error('Error on the AJAX request');
+                _this.xmlhttp = null;
                 _this.input.classList.remove('loading');
                 return;
             }
         };
-        this.xmlhttp.open("GET", this.apiurl + txt, true);
-        this.xmlhttp.send();
+        //Do the XHR request
+        try {
+            this.xmlhttp.open("GET", this.apiurl + txt, true);
+            this.xmlhttp.send();
+        } catch (error) {
+            this.error('Error on the XHR request: ' + error.message);
+        }
+
     };
 
+    /**
+     * Formatting 1 found result (string or Object).
+     * 
+     * @param {*} resultObj String or Object to be formated (and bolded the found portions) as string, so it will displayed to the user
+     */
     this.formatResult = function(resultObj) {
         var searchTxt = this.input.value;
         if (typeof resultObj === 'string') {
@@ -121,29 +161,54 @@ function LiveSeach(elementId, apiurl, minTypedLength, userDefinedFormatFunction,
         }
     };
 
+    /**
+     * Bolding all substring portions (needle) found in the complete string (haystack).
+     * 
+     * @param {string} haystack The complete String
+     * @param {string} needle The substring to be bolded
+     */
     this.boldResult = function(haystack, needle) {
         return haystack.replace(new RegExp('(^|)(' + needle + ')(|$)', 'ig'), '$1<strong>$2</strong>$3');
     };
 
+    /**
+     * Creating the DOM components (with its event) to display the found results.
+     * 
+     * @param {array} results Array of Strings or Objects 
+     */
     this.displayResults = function(results) {
         // 1st: To clean the existing list of diplayed results
         this.resultsContainer.innerHTML = '';
 
+        $noresultsfound = true;
         // 2nd: Display results
-        for (var key in results) {
-            if (results.hasOwnProperty(key)) {
-                /**
-                 * Creating elements to display and manage each result
-                 */
-                var element = results[key];
-                var resDiv = document.createElement('div');
-                resDiv.innerHTML = this.formatResult(element);
-                resDiv.className = 'livesearchRes';
-                resDiv._parentobj = this;
-                this.resultsContainer.appendChild(resDiv);
-                // Assign event to get the result when the user clicks
-                this.eventWrapper(resDiv, "mousedown", this.clickResult);
+        if (Object.keys(results).length > 0) {
+            $noresultsfound = false;
+            for (var key in results) {
+                if (results.hasOwnProperty(key)) {
+                    /**
+                     * Creating elements to display and manage each result
+                     */
+                    var element = results[key];
+                    var resDiv = document.createElement('div');
+                    resDiv.innerHTML = this.formatResult(element);
+                    resDiv.className = 'livesearchRes';
+                    resDiv._parentobj = this;
+                    this.resultsContainer.appendChild(resDiv);
+                    // Assign event to get the result when the user clicks
+                    this.eventWrapper(resDiv, "mousedown", this.clickResult);
+                }
             }
+        }
+
+        if ($noresultsfound) {
+            /**
+             * Creating element to display that there are no results
+             */
+            var resNoResultsDiv = document.createElement('div');
+            resNoResultsDiv.innerHTML = ' - 0 results found - ';
+            resNoResultsDiv.className = 'livesearchRes';
+            this.resultsContainer.appendChild(resNoResultsDiv);
         }
 
         // Apply visibility
@@ -152,7 +217,8 @@ function LiveSeach(elementId, apiurl, minTypedLength, userDefinedFormatFunction,
 
 
     /**
-     * Log Function that displays log message in Console
+     * Log Function that displays log message in Console.
+     * 
      * @param {string} msg 
      */
     this.log = function(msg) {
@@ -160,7 +226,8 @@ function LiveSeach(elementId, apiurl, minTypedLength, userDefinedFormatFunction,
     };
 
     /**
-     * Error Function that displays error message in Console
+     * Error Function that displays error message in Console.
+     * 
      * @param {string} msg 
      */
     this.error = function(msg) {
@@ -168,7 +235,8 @@ function LiveSeach(elementId, apiurl, minTypedLength, userDefinedFormatFunction,
     };
 
     /**
-     * Event to be fired when the input field is updated by the user
+     * Event to be fired when the input field is updated by the user.
+     * 
      * @param {event} event 
      */
     this.eventInputChanged = function(event) {
@@ -189,11 +257,21 @@ function LiveSeach(elementId, apiurl, minTypedLength, userDefinedFormatFunction,
         }
     };
 
+    /**
+     * Blur Event Manager fired when the user looses the focus of the field.
+     * 
+     * @param {event} event Event provided by the browser
+     */
     this.eventInputBlur = function(event) {
         this.classList.remove('loading');
         this._parentobj.resultsWrapperContainer.classList.remove('displayresults');
     };
 
+    /**
+     * Click Event Manager fired when the user clicks on a result.
+     * 
+     * @param {event} event Event provided by the browser
+     */
     this.clickResult = function(event) {
         //Setting the input values of the clicked Result
         var div = document.createElement("div");
